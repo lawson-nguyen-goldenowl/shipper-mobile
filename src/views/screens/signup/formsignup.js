@@ -6,13 +6,12 @@ import { authentication as authAct } from 'redux/actions'
 
 const showErrors = (_errors) => {
     var result = []
+
     Object.keys(_errors).map((k) => {
         _errors[k].forEach(error => {
             result.push(<Text style={styles.error} key={k}>{error}</Text>)
         });
     })
-    console.log(result);
-    
     return result
 }
 
@@ -22,15 +21,15 @@ const FormSignUp = ({ authentication, signup }) => {
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [c_password, setC_Password] = useState('')
-    const [errors, setErrors] = useState(authentication.errors ? authentication.errors.detailErrors : '')
-
-
-
+    const errors =  authentication.errors ? authentication.errors.detailErrors : null
+    
     return (
         <View style={styles.container}>
             <Text style={styles.title}> Đăng ký tài khoản </Text>
             <View>
-                {showErrors(errors)}
+            {
+                errors ? showErrors(errors) : <Text></Text>
+            }
             </View>
             <TextInput
                 style={styles.formInput}
@@ -38,11 +37,13 @@ const FormSignUp = ({ authentication, signup }) => {
                 onChangeText={(email) => setEmail(email)}
                 keyboardType="email-address"
                 textContentType='emailAddress'
+                defaultValue={email ?? ''}
             />
             <TextInput
                 style={styles.formInput}
                 placeholder="Nhập tên"
                 onChangeText={(name) => setName(name)}
+                defaultValue={ name }
             />
             <TextInput
                 style={styles.formInput}

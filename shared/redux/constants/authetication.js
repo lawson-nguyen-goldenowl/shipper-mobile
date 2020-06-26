@@ -18,4 +18,6 @@ export const ActionTypes = keyMirror({
   USER_LOGOUT_FAILURE: undefined,
   USER_SIGNUP: undefined,
   USER_SIGNUP_FAILURE: undefined,
+  TOKEN_CHECK: undefined,
+  TOKEN_CHECK_SUCCESS: undefined
 })

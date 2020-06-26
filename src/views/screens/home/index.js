@@ -11,7 +11,7 @@ const Home = ({authentication,navigation}) => {
       <View style={styles.container}>
         <Text style={styles.title} >APP SHIPPER</Text>
         <View>
-            <Text>Hello {authentication.isAuthenticated ? authentication.userInfo.name : 'guest'}</Text>
+            <Text>Hello {authentication.userInfo.name ?? ''}</Text>
         </View>
       </View>
     )

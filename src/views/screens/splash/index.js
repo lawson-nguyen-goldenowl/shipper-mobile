@@ -6,16 +6,30 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native'
+import { bindActionCreators } from 'redux'
+import { authentication as authAct } from 'redux/actions'
 import NavBot from "navigators/nav_bottom";
 
-const Splash = ({ authentication, navigation }) => {
+const Splash = ({ authentication, navigation, tokenCheck }) => {
   console.log(authentication);
-  
-  if (!authentication.isAuthenticated) {
-    if (authentication.errors) {
-      navigation.navigate(`${authentication.errors.Screen}`)
+  if (authentication.errors) {
+    navigation.navigate(`${authentication.errors.Screen}`)
+    return null
+  }
+  if (authentication.token !== null) {
+    // Call API to get info user to check expired time token
+    if  (authentication.userInfo) {
+      navigation.navigate('Splash')
+      return <NavBot />
     }
-    else navigation.navigate('SignIn')
+    let token = authentication.token
+    tokenCheck(token)
+    return null
+    // If token wrong --> redirect login screen
+    // If token right --> redirect home screen
+
+  } else {
+    navigation.navigate('SignIn')
     return (
       <View style={styles.container} >
         <View>
@@ -29,13 +43,7 @@ const Splash = ({ authentication, navigation }) => {
         </View>
       </View>
     )
-  } else {
-    navigation.canGoBack() ? navigation.goBack() : ''
-    return (
-      <NavBot />
-    )
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -57,4 +65,10 @@ const styles = StyleSheet.create({
   }
 })
 const mapStateToProps = ({ authentication }) => ({ authentication })
-export default connect(mapStateToProps)(Splash)
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    tokenCheck: authAct.tokenCheck,
+  },
+  dispatch,
+)
+export default connect(mapStateToProps, mapDispatchToProps)(Splash)
