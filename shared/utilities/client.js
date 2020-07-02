@@ -74,6 +74,7 @@ export function request(url, options = {}) {
   }
 
   return axios(url, params).then((response) => {
+    
     if (response.status > 299) {
       const error = new ServerError(response.statusText)
       error.status = response.status

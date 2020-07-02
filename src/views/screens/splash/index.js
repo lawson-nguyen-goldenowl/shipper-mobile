@@ -12,7 +12,6 @@ import NavBot from "navigators/nav_bottom";
 import { CommonActions } from "@react-navigation/native";
 
 const Splash = ({ authentication, navigation, tokenCheck, }) => {
-
   if (authentication.errors) {
     navigation.dispatch(
       CommonActions.reset({

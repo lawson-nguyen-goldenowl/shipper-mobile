@@ -16,13 +16,15 @@ const host = "https://api-shippers-goldenowl.herokuapp.com/api/"
 
 export function* login(action) {
   try {
+    console.log('login started',action);
+    
     let url = host + "login"
     let config = {
       method: 'POST',
       payload: action.payload
     }
     let response = yield request(url, config);
-
+    
     if (response.success) {
       yield put({ type: ActionTypes.USER_LOGIN_SUCCESS, payload: response.success })
     }

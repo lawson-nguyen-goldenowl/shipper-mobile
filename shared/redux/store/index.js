@@ -11,7 +11,7 @@ const persistConfig = {
   storage: AsyncStorage,
   version: 1,
   // blacklist: ['Common'],
-  blacklist: ['userInfo'],
+  blacklist: ['orders'],
 
 }
 
