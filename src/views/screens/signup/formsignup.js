@@ -4,33 +4,16 @@ import { Text, TextInput, View, StyleSheet, TouchableOpacity } from 'react-nativ
 import { bindActionCreators } from 'redux'
 import { authentication as authAct } from 'redux/actions'
 
-const showErrors = (_errors) => {
-    var result = []
 
-    Object.keys(_errors).map((k) => {
-        _errors[k].forEach(error => {
-            result.push(<Text style={styles.error} key={k}>{error}</Text>)
-        });
-    })
-    return result
-}
-
-
-const FormSignUp = ({ authentication, signup }) => {
+const FormSignUp = ({ route, authentication, signup }) => {
+    
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [c_password, setC_Password] = useState('')
-    const errors =  authentication.errors ? authentication.errors.detailErrors : null
-    
+
     return (
         <View style={styles.container}>
-            <Text style={styles.title}> Đăng ký tài khoản </Text>
-            <View>
-            {
-                errors ? showErrors(errors) : <Text></Text>
-            }
-            </View>
             <TextInput
                 style={styles.formInput}
                 placeholder="Nhập email"
@@ -43,7 +26,7 @@ const FormSignUp = ({ authentication, signup }) => {
                 style={styles.formInput}
                 placeholder="Nhập tên"
                 onChangeText={(name) => setName(name)}
-                defaultValue={ name }
+                defaultValue={name}
             />
             <TextInput
                 style={styles.formInput}
@@ -70,7 +53,7 @@ const FormSignUp = ({ authentication, signup }) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        alignSelf: 'stretch',
         justifyContent: 'center',
         alignItems: 'center',
         padding: 10,
@@ -90,17 +73,6 @@ const styles = StyleSheet.create({
         padding: 12,
         borderRadius: 25
     },
-    title: {
-        color: 'white',
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginVertical: 10,
-    },
-    error: {
-        color: 'brown',
-        marginVertical: 2
-    }
-
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(

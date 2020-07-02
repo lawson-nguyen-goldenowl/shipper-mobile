@@ -9,10 +9,14 @@ import { bindActionCreators } from 'redux'
 import { authentication as authAct } from 'redux/actions'
 import { connect } from "react-redux";
 
-const Setting = ({logout}) => {
+
+
+
+const Setting = ({ authentication, logout }) => {
+    
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.btn} onPress={ () => logout() }>
+            <TouchableOpacity style={styles.btn} onPress={() => logout()}>
                 <Text style={styles.title}>Đăng xuất</Text>
             </TouchableOpacity>
         </View>
@@ -35,6 +39,7 @@ const styles = StyleSheet.create({
         color: 'white',
     }
 })
+const mapStateToProps = ({ authentication }) => ({ authentication })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
     {
@@ -43,4 +48,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     dispatch,
 )
 
-export default connect(null, mapDispatchToProps)(Setting)
+export default connect(mapStateToProps, mapDispatchToProps)(Setting)

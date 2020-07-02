@@ -6,11 +6,14 @@ import { createActions } from 'redux-actions'
 
 import { ActionTypes } from 'redux/constants/authetication'
 
-export const { userLogin: login, userLogout: logout, userSignup: signup, tokenCheck: tokenCheck } = createActions({
+export const { userLogin: login, userLogout: logout, userSignup: signup, tokenCheck: tokenCheck,  } = createActions({
   [ActionTypes.USER_LOGIN]: ({email,password}) => ({
-    email : "abc@gmail.com",password:"12345678"
+    email : "admin@gmail.com",password:"123456"
   }),
+
   [ActionTypes.USER_LOGOUT]: () => ({}),
+
   [ActionTypes.USER_SIGNUP]: (dataSignup) => (dataSignup),
+  
   [ActionTypes.TOKEN_CHECK]:(token) => ({token}),
 })

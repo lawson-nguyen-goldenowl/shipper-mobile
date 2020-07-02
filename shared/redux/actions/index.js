@@ -1,3 +1,3 @@
 import * as authentication from './authentication'
-
-export { authentication }
+import * as orders from './orders'
+export { authentication, orders }

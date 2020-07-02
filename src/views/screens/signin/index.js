@@ -6,6 +6,11 @@ import { authentication as authAct } from 'redux/actions'
 import FormSignIn from "./formsignin";
 
 const SignIn = ({authentication, navigation}) => {
+
+  if (authentication.token !== null) {
+    navigation.navigate('Splash')
+  }
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}> Đăng nhập </Text>

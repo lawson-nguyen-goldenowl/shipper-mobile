@@ -13,22 +13,6 @@ const host = "https://api-shippers-goldenowl.herokuapp.com/api/"
 /**
  * Login
  */
-loginRequest = async (email, password) => {
-  let url = host + "login";
-  let response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      email,
-      password
-    })
-  }).then((res) => res.json())
-    .then((res_2) => { return res_2 })
-  return response
-}
 
 export function* login(action) {
   try {
@@ -90,30 +74,21 @@ signupRequest = (email, password, c_password, name) => {
 
 export function* signup(action) {
   try {
-    console.log('start ---> wating response');
-    let url = host + 'register'
-    let config = {
-      method: 'POST',
-      payload: action.payload
-    }
-    // let response = reqi
-    let response = yield signupRequest(action.payload.email, action.payload.password, action.payload.c_password, action.payload.name);
-    console.log(response);
-    
-    console.log('get response ---> caculate result')
+    delay(200)
+    console.log('start');
+    let response = yield signupRequest(action.payload.email, action.payload.password, action.payload.c_password, action.payload.name)
+    console.log('response', response);
     if (response.success) {
-      console.log('signup success --> action user sign up success');
       yield put({ type: ActionTypes.USER_LOGIN_SUCCESS, payload: response.success })
     } else {
-      console.log('sign up error -> action user sign up error');
       yield put({ type: ActionTypes.USER_SIGNUP_FAILURE, payload: {errors: Object.assign({}, { detailErrors: response.error }, { Screen: 'SignUp' })}})
     }
-  } catch (error) {
-    console.log('sign up another error ', error);
-    yield put({ type: ActionTypes.USER_SIGNUP_FAILURE, payload: error })
+  } catch (e) {
+    console.log('catching errors' , e);
+    
+    yield put({ type: ActionTypes.USER_SIGNUP_FAILURE, payload: {errors: Object.assign({}, { detailErrors: null }, { Screen: 'SignUp' })} })
   }
 }
-
 
 export function* tokenCheck(action) {
   try {
@@ -126,7 +101,7 @@ export function* tokenCheck(action) {
     let response = yield request(url, config)
     if (response.success) {
       console.log('Request success: ----> CHECK TOKEN SUCCESS')
-      yield put({ type: ActionTypes.TOKEN_CHECK_SUCCESS, payload: {userInfo : response.success} })
+      yield put({ type: ActionTypes.TOKEN_CHECK_SUCCESS, payload: {userInfo: response.success} })
     } else {
       console.log('Request failed: ---> ')
     }

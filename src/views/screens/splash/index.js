@@ -9,41 +9,49 @@ import {
 import { bindActionCreators } from 'redux'
 import { authentication as authAct } from 'redux/actions'
 import NavBot from "navigators/nav_bottom";
+import { CommonActions } from "@react-navigation/native";
 
-const Splash = ({ authentication, navigation, tokenCheck }) => {
-  console.log(authentication);
+const Splash = ({ authentication, navigation, tokenCheck, }) => {
+
   if (authentication.errors) {
-    navigation.navigate(`${authentication.errors.Screen}`)
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          {
+            name: `${authentication.errors.Screen}`,
+            params: {
+              errors: authentication.errors.detailErrors
+            }
+          }
+        ]
+      })
+    )
     return null
   }
   if (authentication.token !== null) {
-    // Call API to get info user to check expired time token
-    if  (authentication.userInfo) {
-      navigation.navigate('Splash')
+    if (authentication.userInfo) {
       return <NavBot />
     }
-    let token = authentication.token
-    tokenCheck(token)
-    return null
-    // If token wrong --> redirect login screen
-    // If token right --> redirect home screen
-
+    else {
+      let token = authentication.token
+      tokenCheck(token)
+    }
   } else {
-    navigation.navigate('SignIn')
-    return (
-      <View style={styles.container} >
-        <View>
-          <Text style={styles.title}>Bạn chưa đăng nhập : </Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('SignIn')}
-            style={styles.btn}
-          >
-            <Text style={{textAlign: 'center', color: 'white'}}>Đăng nhập</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          { name: 'SignIn' }
+        ]
+      })
     )
   }
+  return (
+    <View>
+      <Text>Đang chờ kết quả...</Text>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
