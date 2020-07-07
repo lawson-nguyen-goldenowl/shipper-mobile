@@ -1,19 +1,30 @@
 import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-
-import { Admin_Orders } from '../views/screens/home/admin'
+import { FormAddOrder, ShowOrders } from "../views/screens/home/admin/orders";
+import Dashboard from "../views/screens/home/admin/dashboard";
 
 const Stack = createStackNavigator()
 
 export default () => (
-    <Stack.Navigator
-      initialRouteName="Splash"
-      headerMode="none"
-      screenOptions={{ gestureEnabled: false }}
-    >
-      <Stack.Screen name="Splash" component={Splash} />
-      <Stack.Screen name="SignIn" component={SignIn} />
-      <Stack.Screen name="SignUp" component={SignUp} />
-    </Stack.Navigator>
+  <Stack.Navigator
+    headerMode="float"
+  >
+    <Stack.Screen
+     options={{
+       headerStyle: ''
+     }}
+     name="DASHBOARD" component={Dashboard} />
+    <Stack.Screen
+      options={{
+        title: ''
+      }}
+      name="ADD_ORDER" component={FormAddOrder} />
+    <Stack.Screen
+      options={{
+        title: 'ORDERS'
+      }}
+      name="SHOW_ORDERS"
+      component={ShowOrders}
+    />
+  </Stack.Navigator>
 )

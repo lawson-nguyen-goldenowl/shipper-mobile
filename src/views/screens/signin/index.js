@@ -1,51 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View, Text, StyleSheet } from 'react-native'
-import { bindActionCreators } from 'redux'
-import { authentication as authAct } from 'redux/actions'
+import { View, Text } from 'react-native'
 import FormSignIn from "./formsignin";
+import mainStyle from "../../styles/main";
 
-const SignIn = ({authentication, navigation}) => {
 
-  if (authentication.token !== null) {
-    navigation.navigate('Splash')
-  }
-  
+const SignIn = ({ navigation }) => {
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}> Đăng nhập </Text>
-      <FormSignIn />
-      <Text onPress={() => {navigation.navigate('SignUp')}} style={styles.link}>Đăng ký tài khoản</Text>
+    <View style={mainStyle.wrapper}>
+      <Text style={mainStyle.title}> Login </Text>
+      <FormSignIn navigation={navigation} />
+      <Text onPress={() => {navigation.navigate('SignUp')}} style={mainStyle.link}>Sign up</Text>
     </View>
   )
 }
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(
-  {
-    login: authAct.login,
-    logout: authAct.logout,
-  },
-  dispatch,
-)
-
-const mapStateToProps = ({ authentication }) => ({ authentication })
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn)
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#60B9CE",
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    color: 'white',
-    fontSize: 30,
-    fontWeight: 'bold'
-  },
-  link: {
-    marginVertical: 10,
-    color: 'blue',
-    textDecorationLine: 'underline'
-  }
-})
+export default connect()(SignIn)

@@ -1,67 +1,73 @@
-import React, {useState} from 'react';
-import { connect } from 'react-redux'
-import { Text, TextInput, View, StyleSheet, TouchableOpacity } from 'react-native';
-import { bindActionCreators } from 'redux'
-import { authentication as authAct } from 'redux/actions'
+import React, { useState } from 'react';
+import { connect } from "react-redux";
+import { Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { bindActionCreators } from "redux";
+import { authentication as authAct } from "redux/actions";
+import formStyle from "../../styles/form";
+import { CommonActions } from "@react-navigation/native";
 
-
-const FormSignIn = ({login}) => {
-    const [email , setEmail] = useState('')
-    const [password, setPassword] = useState('')
+const renderNotify = (isLoading, errors) => {
+    let mess = ''
+    if (errors) mess = 'Login Failed: ' + errors
+    if (isLoading) mess = "Wait a second..."
     return (
-        <View style={styles.container}>
+        <View style={{ marginVertical: 5 }}>
+            <Text style={formStyle.notify}>{mess}</Text>
+        </View>
+    )
+}
+
+
+const FormSignIn = ({ navigation, login, authentication }) => {
+    if (authentication.token) {
+        navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [
+                    { name: 'Splash' }
+                ]
+            })
+        )
+        return null
+    }
+    const errors = (authentication.errors && 'signin' in authentication.errors ) ? authentication.errors.signin : false
+    const isLoading = authentication.isLoading
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    console.log(authentication);
+
+    return (
+        <View style={formStyle.container}>
+            {renderNotify(isLoading, errors)}
             <TextInput
-                style={styles.formInput}
-                placeholder="Nhập email"
-                onChangeText={(email) => setEmail(email)}
+                style={formStyle.input}
+                placeholder="Enter your email"
+                onChangeText={email => setEmail(email)}
+                defaultValue={email ?? ''}
             />
             <TextInput
-                style={styles.formInput}
-                placeholder="Nhập mật khẩu"
-                onChangeText={(password) => setPassword(password)}
+                style={formStyle.input}
+                placeholder="Enter your password"
+                onChangeText={password => setPassword(password)}
                 secureTextEntry={true}
             />
             <TouchableOpacity
-                style={styles.formBtn}
-                onPress={() => login({email,password})}
+                style={formStyle.btn}
+                onPress={() => login(email, password)}
             >
-                <Text  style={{ color: 'white' }}>Đăng nhập</Text>
+                <Text style={formStyle.btnText}>Login</Text>
             </TouchableOpacity>
-
         </View>
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        alignSelf: 'stretch',
-        padding: 10,
-    },
-    formInput: {
-        backgroundColor: '#38B2CE',
-        marginVertical: 10,
-        borderRadius: 25,
-        textAlign: 'center',
-        fontSize: 15,
-        color: 'white'
-    },
-    formBtn: {
-        alignItems: 'center',
-        alignSelf: 'center',
-        width: '50%',
-        backgroundColor: '#FFA240',
-        padding: 12,
-        borderRadius: 25
-    },
-
-})
+const mapStateToProps = ({ authentication }) => ({ authentication })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
     {
         login: authAct.login,
-        logout: authAct.logout,
     },
     dispatch,
 )
 
-export default connect(null, mapDispatchToProps)(FormSignIn)
+export default connect(mapStateToProps, mapDispatchToProps)(FormSignIn)

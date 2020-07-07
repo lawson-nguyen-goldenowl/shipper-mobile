@@ -7,7 +7,7 @@ import { all, delay, put, takeLatest } from 'redux-saga/effects'
 
 import { ActionTypes } from 'redux/constants/authetication'
 import { request } from "utilities/client";
-
+import apiUser from "../api/apiUser";
 
 const host = "https://api-shippers-goldenowl.herokuapp.com/api/"
 /**
@@ -16,24 +16,19 @@ const host = "https://api-shippers-goldenowl.herokuapp.com/api/"
 
 export function* login(action) {
   try {
-    console.log('login started',action);
-    
-    let url = host + "login"
-    let config = {
-      method: 'POST',
-      payload: action.payload
-    }
-    let response = yield request(url, config);
+    let response = yield apiUser.login(action.payload.email, action.payload.password)   
     
     if (response.success) {
       yield put({ type: ActionTypes.USER_LOGIN_SUCCESS, payload: response.success })
+    } else {
+      yield put({ type: ActionTypes.USER_LOGIN_FAILURE, payload: { error: response.error } })
     }
 
   } catch (err) {
     /* istanbul ignore next */
     yield put({
       type: ActionTypes.USER_LOGIN_FAILURE,
-      payload: err,
+      payload: { error: response.error }
     })
   }
 }
@@ -55,40 +50,20 @@ export function* logout() {
   }
 }
 
-signupRequest = (email, password, c_password, name) => {
-  let url = host + "register"
-  let response = fetch(url, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      email,
-      password,
-      c_password,
-      name
-    })
-  }).then((res) => res.json())
-    .then((res_2) => { return res_2 })
-  return response
-}
-
 export function* signup(action) {
   try {
     delay(200)
     console.log('start');
-    let response = yield signupRequest(action.payload.email, action.payload.password, action.payload.c_password, action.payload.name)
+    let response  = yield apiUser.signup(action.payload)
     console.log('response', response);
     if (response.success) {
       yield put({ type: ActionTypes.USER_LOGIN_SUCCESS, payload: response.success })
     } else {
-      yield put({ type: ActionTypes.USER_SIGNUP_FAILURE, payload: {errors: Object.assign({}, { detailErrors: response.error }, { Screen: 'SignUp' })}})
+      yield put({ type: ActionTypes.USER_SIGNUP_FAILURE, payload: {errors: response.error}})
     }
   } catch (e) {
     console.log('catching errors' , e);
-    
-    yield put({ type: ActionTypes.USER_SIGNUP_FAILURE, payload: {errors: Object.assign({}, { detailErrors: null }, { Screen: 'SignUp' })} })
+    yield put({ type: ActionTypes.USER_SIGNUP_FAILURE, payload: {errors: response.error}})
   }
 }
 

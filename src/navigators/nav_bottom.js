@@ -16,7 +16,7 @@ export default () => {
             case 'Home':
               return <Icon focused={true} color="white" name="home" type="font-awesome" size={size} color={color} />
               break;
-            case 'Tác Vụ':
+            case 'Settings':
               return <Icon color="white" name="bars" type="font-awesome" size={size} color={color} />
               break;
           }
@@ -28,7 +28,7 @@ export default () => {
       }}
     >
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Tác Vụ" component={Settings} />
+      <Tab.Screen name="Settings" component={Settings} />
     </Tab.Navigator>
   );
 }

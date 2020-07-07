@@ -4,8 +4,6 @@ import {
     View,
     Text,
     TextInput,
-    TouchableOpacity,
-    StyleSheet
 } from 'react-native'
 import form from "../../../../styles/form";
 import { bindActionCreators } from 'redux'
@@ -14,25 +12,11 @@ import { orders } from 'redux/actions'
 const showMessage = message => {
     let result = []
     if (message) {
-        let messStyle = {
-            marginVertical: 2,
-            fontWeight: 'bold',
-            textAlign: 'center'
-        }
-        let titleStyle = {
-            fontSize: 20
-        }
-        let detaileStyle = {
-            fontSize: 15
-        }
-        // add order success
-        messStyle.color = message.result ? 'aqua' : 'brown'
-        result.push(<Text key="titleMess" style={[messStyle,titleStyle]}>{ message.result ? 'Thành công' : 'Xảy ra lỗi !' }</Text>)
         if (message.detail && !message.result) {
             let _errors = message.detail
             Object.keys(_errors).map((k) => {
                 _errors[k].forEach(error => {
-                    result.push(<Text style={[messStyle, detaileStyle]} key={k}>{error}</Text>)
+                    result.push(<Text style={form.error} key={k}>{error}</Text>)
                 });
             })
         }
@@ -40,56 +24,71 @@ const showMessage = message => {
     return result
 }
 
+const initialState = {
+    nameOrder: '',
+    weight: null,
+    recipientName: '',
+    recipientPhone: '',
+}
+
+const Loading = (
+    <View>
+        <Text>Loading...</Text>
+    </View>
+)
+
 const FormAddOrder = ({ authentication, addOrder, orders }) => {
-    const [nameOrder, setNameOrder] = useState('')
-    const [weightOrder, setweightOrder] = useState(null)
-    const [recipientName, setRecipientName] = useState('')
-    const [recipientPhone, setrRcipientPhone] = useState('')
+    // console.log(orders);
+
+    const [{
+        nameOrder,
+        weightOrder,
+        recipientName,
+        recipientPhone,
+    }, setState] = useState(initialState)
+
     if (orders.isLoading) {
-        return (
-            <View>
-                <Text>Loading...</Text>
-            </View>
-        )
-    }
+        return <Loading />
+    }    
+    
+
     return (
-        <View>
-            <View style={form.container}>
-                <Text style={form.title}>Thêm hóa đơn</Text>
-                {orders.message ? showMessage(orders.message) : null}
-                <TextInput
-                    style={form.input}
-                    placeholder="Tên Hóa Đơn"
-                    onChangeText={(nameOrder) => setNameOrder(nameOrder)}
-                    defaultValue={nameOrder ?? ''}
-                />
-                <TextInput
-                    style={form.input}
-                    placeholder="Khối lượng Hóa Đơn"
-                    keyboardType='numeric'
-                    onChangeText={(weightOrder) => setweightOrder(weightOrder)}
-                    defaultValue={weightOrder ?? ''}
-                />
-                <TextInput
-                    style={form.input}
-                    placeholder="Tên Người Nhận"
-                    onChangeText={(recipientName) => setRecipientName(recipientName)}
-                    defaultValue={recipientName ?? ''}
-                />
-                <TextInput
-                    style={form.input}
-                    placeholder="Số điện thoại người nhận"
-                    keyboardType='numeric'
-                    onChangeText={(recipientPhone) => setrRcipientPhone(recipientPhone)}
-                    defaultValue={recipientPhone ?? ''}
-                />
-                <TouchableOpacity
-                    style={form.btn}
-                    onPress={() => addOrder({ data: { name: nameOrder, weight: weightOrder, recipientName, recipientPhone }, token: authentication.token })}
-                >
-                    <Text>Thêm</Text>
-                </TouchableOpacity>
-            </View>
+        <View style={form.container}>
+            <Text style={form.title}>ADD NEW ORDER</Text>
+            {orders.message ? showMessage(orders.message) : null}
+            <TextInput
+                style={form.input}
+                placeholder="Enter order's name"
+                onChangeText={(nameOrder) => setState(prevState => console.log(prevState)
+                )}
+                // defaultValue={nameOrder ?? ''}
+            />
+            {/* <TextInput
+                style={form.input}
+                placeholder="Enter order's weight"
+                keyboardType='numeric'
+                onChangeText={(weightOrder) => setweightOrder(weightOrder)}
+                defaultValue={weightOrder ?? ''}
+            />
+            <TextInput
+                style={form.input}
+                placeholder="Enter recipient's name"
+                onChangeText={(recipientName) => setRecipientName(recipientName)}
+                defaultValue={recipientName ?? ''}
+            />
+            <TextInput
+                style={form.input}
+                placeholder="Enter recipient's phone"
+                keyboardType='numeric'
+                onChangeText={(recipientPhone) => setrRcipientPhone(recipientPhone)}
+                defaultValue={recipientPhone ?? ''}
+            />
+            <TouchableOpacity
+                style={form.btn}
+                onPress={() => addOrder({ data: { name: nameOrder, weight: weightOrder, recipientName, recipientPhone }, token: authentication.token })}
+            >
+                <Text>Thêm</Text>
+            </TouchableOpacity> */}
         </View>
     )
 }

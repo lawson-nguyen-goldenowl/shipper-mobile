@@ -10,7 +10,6 @@ const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   version: 1,
-  // blacklist: ['Common'],
   blacklist: ['orders'],
 
 }

@@ -1,2 +1,3 @@
 import FormAddOrder from "./addOrder";
-export { FormAddOrder }
+import ShowOrders from "./show";
+export { FormAddOrder, ShowOrders }

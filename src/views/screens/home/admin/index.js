@@ -1,27 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from "react-redux";
 import {
-  View,
-  StyleSheet,
-  Text,
+  View, Text
 } from 'react-native'
-import { FormAddOrder } from "./orders";
+import NavAdmin from "navigators/nav_admin";
 
-const Home = () => {
-  return (
-    <View style={styles.container}>
-      <Text>Home admin</Text>
-      <FormAddOrder />
-    </View>
-  )
+
+const Admin = () => {
+  const [display, setDisplay] = useState(null)
+  return <NavAdmin />
 }
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'stretch'
-  },
-})
-
-export default connect()(Home)
+export default connect()(Admin)
