@@ -11,23 +11,23 @@ import orderStyle from "../../../../../styles/orders";
 import main from "../../../../../styles/main";
 import { orders as orderActions } from "redux/actions";
 import { bindActionCreators } from 'redux'
-
+import Loading from "../../../../loading";
 
 
 const AllOrders = ({ authentication, orders, updateOrders, setVisibilityDetail }) => {
     const allOrders = orders.data
 
-    function Item(infoItem) {
+    function Item(item, index) {
         return (
             <TouchableOpacity
-                onPress={() => setVisibilityDetail(infoItem.id)
+                onPress={() => setVisibilityDetail(index)
                 }
                 style={orderStyle.item}>
-                <Text style={orderStyle.itemTitle}>{infoItem.name}</Text>
+                <Text style={orderStyle.itemTitle}>{item.name}</Text>
                 <View style={orderStyle.itemDescription}>
-                    <Text style={orderStyle.itemInfo}>Order weight: {infoItem.weight}g</Text>
-                    <Text style={orderStyle.itemInfo}>Recipient Name: {infoItem.recipientName}</Text>
-                    <Text style={orderStyle.itemInfo}>Recipient Phone: {infoItem.recipientPhone} </Text>
+                    <Text style={orderStyle.itemInfo}>Order weight: {item.weight}g</Text>
+                    <Text style={orderStyle.itemInfo}>Recipient Name: {item.recipientName}</Text>
+                    <Text style={orderStyle.itemInfo}>Recipient Phone: {item.recipientPhone} </Text>
                 </View>
             </TouchableOpacity>
         );
@@ -35,17 +35,13 @@ const AllOrders = ({ authentication, orders, updateOrders, setVisibilityDetail }
 
     const showAllOrders = (allOrders) => {
         if (allOrders && allOrders.length == 0) {
-            return (
-                <View>
-                    <Text>Loading Orders...</Text>
-                </View>
-            )
+            return Loading('Loading orders...')
         }
         return (
             <FlatList
                 style={main.body}
                 data={allOrders}
-                renderItem={({ item }) => Item(item)}
+                renderItem={({ item, index }) => Item(item, index)}
                 keyExtractor={item => item.id.toString()}
             />
         )
@@ -62,7 +58,6 @@ const AllOrders = ({ authentication, orders, updateOrders, setVisibilityDetail }
         </View>
     )
 }
-
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
     {

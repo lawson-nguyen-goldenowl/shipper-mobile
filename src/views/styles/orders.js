@@ -15,11 +15,17 @@ const orderStyle = StyleSheet.create({
         marginVertical: 3,
         textAlign: 'center'
     },
+    itemLable: {
+        color: 'yellow',
+        fontWeight: 'bold'
+    },
     itemDescription: {
         marginVertical: 15,
     },
     itemInfo: {
-        color: 'white'
+        marginVertical: 5,
+        color: 'white',
+
     },
     btn: {
         padding: 15,

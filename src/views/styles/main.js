@@ -4,6 +4,7 @@ import {
 const main = StyleSheet.create({
     wrapper: {
         flex: 1,
+        flexGrow: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
@@ -21,7 +22,6 @@ const main = StyleSheet.create({
         alignSelf: 'stretch',
         flexGrow: 1,
         backgroundColor: 'white',
-        alignItems: 'center'
     },
     footer: {
         flex: 1,

@@ -11,7 +11,7 @@ export const { userLogin: login, userLogout: logout, userSignup: signup, tokenCh
 
   [ActionTypes.USER_LOGOUT]: () => ({}),
 
-  [ActionTypes.USER_SIGNUP]: (dataSignup) => (dataSignup),
+  [ActionTypes.USER_SIGNUP]: (dataSignup) => ({data: dataSignup}),
   
   [ActionTypes.TOKEN_CHECK]:(token) => ({token}),
 

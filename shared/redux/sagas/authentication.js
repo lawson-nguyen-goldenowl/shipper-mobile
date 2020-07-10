@@ -28,7 +28,7 @@ export function* login(action) {
     /* istanbul ignore next */
     yield put({
       type: ActionTypes.USER_LOGIN_FAILURE,
-      payload: { error: response.error }
+      payload: { error: err }
     })
   }
 }
@@ -49,13 +49,15 @@ export function* logout() {
     })
   }
 }
+/**
+ * 
+ * @param {action.payload.data} Signup 
+ */
 
 export function* signup(action) {
   try {
     delay(200)
-    console.log('start');
-    let response  = yield apiUser.signup(action.payload)
-    console.log('response', response);
+    let response  = yield apiUser.signup(action.payload.data)
     if (response.success) {
       yield put({ type: ActionTypes.USER_LOGIN_SUCCESS, payload: response.success })
     } else {

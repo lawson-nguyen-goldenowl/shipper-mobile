@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import {
     View,
     Text,
-    FlatList,
     TouchableOpacity,
 } from 'react-native'
 import orderStyle from "../../../../../styles/orders";
@@ -15,9 +14,38 @@ function Item(infoItem) {
         <View>
             <Text style={orderStyle.itemTitle}>{infoItem.name}</Text>
             <View style={orderStyle.itemDescription}>
-                <Text style={orderStyle.itemInfo}>Order weight: {infoItem.weight}g</Text>
-                <Text style={orderStyle.itemInfo}>Recipient Name: {infoItem.recipientName}</Text>
-                <Text style={orderStyle.itemInfo}>Recipient Phone: {infoItem.recipientPhone} </Text>
+                <Text style={orderStyle.itemInfo}>
+                    <Text style={orderStyle.itemLable}>Status: </Text> 
+                    {infoItem.status} 
+                </Text>
+                <Text style={orderStyle.itemInfo}>
+                    <Text style={orderStyle.itemLable}>Order weight: </Text>
+                    {infoItem.weight}g
+                </Text>
+                <Text style={orderStyle.itemInfo}>
+                    <Text style={orderStyle.itemLable}>Description: </Text>
+                    {infoItem.description}
+                </Text>
+                <Text style={orderStyle.itemInfo}>
+                    <Text style={orderStyle.itemLable}>Recipient Name: </Text>
+                    {infoItem.recipientName}
+                </Text>
+                <Text style={orderStyle.itemInfo}>
+                    <Text style={orderStyle.itemLable}>Recipient Phone: </Text>
+                    {infoItem.recipientPhone} 
+                </Text>
+                <Text style={orderStyle.itemInfo}>
+                    <Text style={orderStyle.itemLable}>Recipient Addresss: </Text>
+                    {infoItem.recipientAddress} 
+                </Text>
+                <Text style={orderStyle.itemInfo}>
+                    <Text style={orderStyle.itemLable}>Shipper: </Text>
+                    {infoItem.idShipper} 
+                </Text>
+                <Text style={orderStyle.itemInfo}>
+                    <Text style={orderStyle.itemLable}>Created: </Text>
+                    {infoItem.created_at} 
+                </Text>
             </View>
         </View>
     );
@@ -25,10 +53,12 @@ function Item(infoItem) {
 
 const DetailOrder = ({ orders, setVisibilityShowAll }) => {
     const order = orders.data[orders.idDetail]
+    console.log(order);
+    
     return (
         <View style={orderStyle.bgDetaiil}>
-            <TouchableOpacity 
-                onPress={() => setVisibilityShowAll() }
+            <TouchableOpacity
+                onPress={() => setVisibilityShowAll()}
                 style={orderStyle.btnBg}>
                 <Text style={orderStyle.btnTitle}>Show All Orders</Text>
             </TouchableOpacity>

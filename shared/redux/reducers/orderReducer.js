@@ -37,7 +37,7 @@ export default handleActions(
         [ActionTypes.SET_VISIBILITY_DETAIL]: (state, action) => ({
             ...state,
             visibilityFilter: "SHOW_DETAIL",
-            idDetail: action.payload.idDetail
+            idDetail: action.payload.idOrder
         }),
         [ActionTypes.SET_VISIBILITY_SHOW_ALL]: (state, action) => ({
             ...state,

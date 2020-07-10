@@ -4,8 +4,6 @@ import AllOrders from "./allOrders";
 import DetailOrder from "./detailOrder";
 
 const ShowOrders = ({ orders }) => {
-    console.log(orders);
-    
     switch (orders.visibilityFilter) {
         case 'SHOW_DETAIL':
             return <DetailOrder/>

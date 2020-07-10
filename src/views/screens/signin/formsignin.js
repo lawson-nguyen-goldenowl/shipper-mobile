@@ -38,7 +38,7 @@ const FormSignIn = ({ navigation, login, authentication }) => {
 
     return (
         <View style={formStyle.container}>
-            {renderNotify(isLoading, errors)}
+            {renderNotify(isLoading, errors.data)}
             <TextInput
                 style={formStyle.input}
                 placeholder="Enter your email"
