@@ -6,10 +6,8 @@
 import { all, delay, put, takeLatest } from 'redux-saga/effects'
 
 import { ActionTypes } from 'redux/constants/authetication'
-import { request } from "utilities/client";
 import apiUser from "../api/apiUser";
 
-const host = "https://api-shippers-goldenowl.herokuapp.com/api/"
 /**
  * Login
  */
@@ -17,7 +15,6 @@ const host = "https://api-shippers-goldenowl.herokuapp.com/api/"
 export function* login(action) {
   try {
     let response = yield apiUser.login(action.payload.email, action.payload.password)   
-    
     if (response.success) {
       yield put({ type: ActionTypes.USER_LOGIN_SUCCESS, payload: response.success })
     } else {
@@ -25,7 +22,6 @@ export function* login(action) {
     }
 
   } catch (err) {
-    /* istanbul ignore next */
     yield put({
       type: ActionTypes.USER_LOGIN_FAILURE,
       payload: { error: err }
@@ -71,22 +67,17 @@ export function* signup(action) {
 
 export function* tokenCheck(action) {
   try {
-    let url = host + "details"
-    let config = {
-      headers: {
-        Authorization : "Bearer " + action.payload.token
-      }
-    }
-    let response = yield request(url, config)
+    let response = yield apiUser.checkToken(action.payload.token)
     if (response.success) {
       console.log('Request success: ----> CHECK TOKEN SUCCESS')
       yield put({ type: ActionTypes.TOKEN_CHECK_SUCCESS, payload: {userInfo: response.success} })
     } else {
       console.log('Request failed: ---> ')
+      yield put({ type: ActionTypes.USER_LOGOUT })
     }
   } catch (error) {
-    console.log('Catching error ---> Show : Error')
-    console.log(error)
+    console.log('Catching error ---> Show : Error',error)
+    yield put({ type: ActionTypes.USER_LOGOUT })
   }
 }
 

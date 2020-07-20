@@ -1,8 +1,6 @@
 import { request } from "./client";
 
 const authentication = async (action , data) => {
-    console.log(data);
-    
     let url = action
     let config = {
         method: "POST",
@@ -10,7 +8,6 @@ const authentication = async (action , data) => {
     }
     
     let response = await request(url, config)
-    console.log(response)
     return response
 }
 const login = (email, password) => authentication('login', {email, password})
@@ -18,7 +15,13 @@ const signup = (info) => authentication('register', info)
 
 const checkToken = async token => {
     try {
-        let url = host + 'details'
+        let config = {
+            headers : {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        let response = await request('details', config)
+        return response
     } catch (error) {
         
     }
@@ -26,7 +29,8 @@ const checkToken = async token => {
 
 const apiUser = {
     login,
-    signup
+    signup,
+    checkToken
 }
 
 export default apiUser

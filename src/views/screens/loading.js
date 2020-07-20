@@ -1,10 +1,11 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import main from "../styles/main";
-const Loading = (message = "Loading...") => {
+import main from "styles/main";
+
+const Loading = (message) => {
   return (
     <View style={{ marginVertical: 5 }}>
-      <Text style={main.notify}>{message}</Text>
+      <Text style={{textAlign: 'center', ...main.notify}}>{message}</Text>
     </View>
   )
 }

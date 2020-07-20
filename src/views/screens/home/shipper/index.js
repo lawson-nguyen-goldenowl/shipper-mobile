@@ -1,10 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from "react-redux";
-import NavShipper from "navigators/nav_shipper";
+import {
+    View, Text, TouchableOpacity
+} from 'react-native'
+import main from "styles/main";
+import styleForm from "styles/form";
 
-
-const Shipper = () => {
-  return <NavShipper />
+const DASHBOARD = ({ navigation }) => {
+    return (
+        <View style={main.wrapper}>
+            <Text style={main.title}>SHIPPER</Text>
+            <View style={main.body}>
+                <TouchableOpacity
+                    style={styleForm.btn}
+                    onPress={() => navigation.navigate('ORDERS')}
+                >
+                    <Text style={styleForm.btnText}>Your Orders</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    )
 }
 
-export default connect()(Shipper)
+export default connect()(DASHBOARD)

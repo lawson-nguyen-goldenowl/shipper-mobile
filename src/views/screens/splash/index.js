@@ -3,18 +3,18 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import { bindActionCreators } from 'redux'
 import { authentication as authAct } from 'redux/actions'
-import NavBot from "navigators/nav_bottom";
+import NavMain from "navigators/nav_main";
 import { CommonActions } from "@react-navigation/native";
-import main from "../../styles/main";
+import main from "styles/main";
 
 const Splash = ({ authentication, navigation, tokenCheck, }) => {
-
-  if (authentication.token !== null) {
+  
+  let token = authentication.token
+  if (token) {
     if (authentication.userInfo) {
-      return <NavBot />
+      return <NavMain />
     }
     else {
-      let token = authentication.token
       tokenCheck(token)
     }
   } else {

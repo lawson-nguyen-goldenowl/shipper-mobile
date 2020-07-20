@@ -1,5 +1,5 @@
-const host = "https://api-shippers-goldenowl.herokuapp.com/api/"
-
+const host = "http://192.168.3.147:8000/api/"
+// const host = "http://192.168.1.3:8000/api/"
 
 export function  request(url, options = {}) {
   const config = {

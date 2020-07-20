@@ -24,8 +24,6 @@ const orderStyle = StyleSheet.create({
     },
     itemInfo: {
         marginVertical: 5,
-        color: 'white',
-
     },
     btn: {
         padding: 15,

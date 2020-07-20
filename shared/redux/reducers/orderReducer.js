@@ -5,7 +5,7 @@ import { ActionTypes } from 'redux/constants/orders'
 export const ordersState = {
     visibilityFilter : "SHOW_ALL",
     data: [],
-    idDetail: null,
+    index: null,
     message: null,
     isLoading: false,
 }
@@ -34,16 +34,11 @@ export default handleActions(
             ...state,
             data: action.payload.orders
         }),
-        [ActionTypes.SET_VISIBILITY_DETAIL]: (state, action) => ({
+        [ActionTypes.SET_VISIBILITY]: (state, action) => ({
             ...state,
-            visibilityFilter: "SHOW_DETAIL",
-            idDetail: action.payload.idOrder
+            visibilityFilter: action.payload.visibility,
+            index: action.payload.index,
         }),
-        [ActionTypes.SET_VISIBILITY_SHOW_ALL]: (state, action) => ({
-            ...state,
-            visibilityFilter: "SHOW_ALL",
-            idDetail: null
-        })
     },
     ordersState
 )

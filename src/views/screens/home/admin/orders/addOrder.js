@@ -4,6 +4,7 @@ import {
     View,
     Text,
     TextInput,
+    TouchableOpacity
 } from 'react-native'
 import form from "../../../../styles/form";
 import { bindActionCreators } from 'redux'
@@ -63,7 +64,7 @@ const FormAddOrder = ({ authentication, addOrder, orders }) => {
                 )}
                 // defaultValue={nameOrder ?? ''}
             />
-            {/* <TextInput
+            <TextInput
                 style={form.input}
                 placeholder="Enter order's weight"
                 keyboardType='numeric'
@@ -87,8 +88,8 @@ const FormAddOrder = ({ authentication, addOrder, orders }) => {
                 style={form.btn}
                 onPress={() => addOrder({ data: { name: nameOrder, weight: weightOrder, recipientName, recipientPhone }, token: authentication.token })}
             >
-                <Text>Thêm</Text>
-            </TouchableOpacity> */}
+                <Text>Submit</Text>
+            </TouchableOpacity>
         </View>
     )
 }

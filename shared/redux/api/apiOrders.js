@@ -1,24 +1,22 @@
-const host = "https://api-shippers-goldenowl.herokuapp.com/api/"
-
-const showAll = async (token) => {
+import { request } from "./client";
+const getAll = async (token) => {
     try {
-        let url = host + "orders"
-        let response =  await fetch(url, {
+        console.log("Started fetching...")
+        let config = {
             headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`
             }
-        })
-        let json =  await response.json()
-        return json.success.data
+        }
+        let response = await request('orders', config)
+        console.log('Recived Respond')
+        return response
     } catch (error) {
         console.log('API ALL ORDER ERROR: ', error)
     }
 }
 
 const Orders = {
-    showAll
+    getAll
 }
 
 export default Orders

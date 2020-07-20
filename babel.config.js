@@ -3,7 +3,15 @@ module.exports = {
   plugins: [
     [
       'module-resolver',
-      { root: ['./src', './shared'] },
+      {
+        root: ['./src', './shared'],
+        alias: {
+          "src" : "./src",
+          "styles": "./src/views/styles",
+          "apis" : "./shared/redux/api",
+          "screens": "./src/views/screens"
+        }
+      },
     ],
   ],
 }

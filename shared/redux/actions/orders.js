@@ -6,9 +6,8 @@ import { createActions } from 'redux-actions'
 import { ActionTypes } from 'redux/constants/orders'
 
 
-export const { addOrder, updateOrders, setVisibilityDetail, setVisibilityShowAll } = createActions({
+export const { addOrder, updateOrders, setVisibility } = createActions({
     [ActionTypes.ADD_ORDER]: order => order,
     [ActionTypes.UPDATE_ORDERS]: orders => ({orders}),
-    [ActionTypes.SET_VISIBILITY_DETAIL]: idOrder =>({idOrder}),
-    [ActionTypes.SET_VISIBILITY_SHOW_ALL]: () => ({}),
+    [ActionTypes.SET_VISIBILITY]: (visibility, index) => ({visibility, index}),
 })

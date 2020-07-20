@@ -1,7 +1,5 @@
 import { all, delay, put, takeLatest } from 'redux-saga/effects'
 import { ActionTypes } from 'redux/constants/orders'
-import { request } from "utilities/client";
-const host = "https://api-shippers-goldenowl.herokuapp.com/api/"
 
 /**
  * ADD ORDER
