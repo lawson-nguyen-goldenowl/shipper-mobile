@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from "react-redux";
 import {
     FlatList,
@@ -10,11 +10,11 @@ import { bindActionCreators } from "redux";
 import { orders as orderActions } from "redux/actions";
 import apiOrders from "apis/apiOrders"
 import Loading from "screens/loading";
-import mainStyle from 'styles/main'
+import formStyle from 'styles/form'
 import orderStyle from 'styles/orders'
 import Maps from "./maps";
 
-function Item(item, index, setVisibility, updateOrders) {
+function Item(item, index, setVisibility) {
     return (
         <TouchableOpacity
             onPress={() => setVisibility('SHOW_DETAIL', index)}
@@ -29,36 +29,74 @@ function Item(item, index, setVisibility, updateOrders) {
     );
 }
 
-const AllOrders = ({ authentication, orders, setVisibility, updateOrders }) => {
-    let token = authentication.token
-    let allOrders = (orders.data).length ? orders.data : null
+const DisplayMode = ({ mode }) => {
+    switch (mode.mode) {
+        case 'orders':
+            return (
+                <FlatList
+                    data={mode.data}
+                    renderItem={({ item, index }) => Item(item, index, mode.actions)}
+                    keyExtractor={item => item.id.toString()}
+                />
+            )
+            break;
+        case 'routes':
+            return <Maps data={mode.data} />
+        default:
+            return null;
+            break;
+    }
+}
 
+
+
+const AllOrders = ({ authentication, orders, setVisibility, updateOrders }) => {
+
+    let token = authentication.token
+    let [displayModes, setDisplayModes] = useState({ mode: 'orders', data: (orders.data).length ? orders.data : [], actions: setVisibility })
+
+    const swapMode = () => {
+        if (displayModes.mode == 'orders') {
+            setDisplayModes((premode) => ({
+                ...premode,
+                mode: 'routes'
+            }))
+        } else {
+            setDisplayModes((premode) => ({
+                ...premode,
+                mode: 'orders'
+            }))
+        }
+    }
     useEffect(() => {
         apiOrders.getAll(token).then((res) => {
             updateOrders(res)
+            setDisplayModes((premode) => ({
+                ...premode,
+                data: res
+            }))
         })
     }, [])
 
-    if (!allOrders) {
+    if (!displayModes.data.length) {
         return Loading('Loading your orders from sever ! Please wait a second...')
     }
 
-    if (!allOrders.length) {
-        return Loading('You dont have any orders now')
-    }
     return (
-        <View style={mainStyle.body}>
-            {/* <Text>asdasdsad</Text> */}
-            {/* <FlatList
-                style={mainStyle.body}
-                data={allOrders}
-                renderItem={({ item, index }) => Item(item, index, setVisibility)}
-                keyExtractor={item => item.id.toString()}
-            /> */}
-            <Maps />
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
+            <View style={{ flex: 1, flexGrow: 1 }}>
+                <DisplayMode mode={displayModes} />
+                <TouchableOpacity
+                    onPress={() => swapMode()}
+                    style={formStyle.btn}>
+                    <Text style={formStyle.btnText}>View {displayModes.mode == 'orders' ? 'routes' : 'orders'}</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
+
+
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
     {
